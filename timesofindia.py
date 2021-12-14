@@ -4,13 +4,13 @@ import requests
 
 class Article:
     def get_name(self, sp):
-        return sp.find('div',class_ = 'tab_search clearfix').h2.text
+        return sp.find('h1',class_ = 'nheadingrs').text
 
     def get_ing(self, sp):
-        return sp.find('div',id = 'ingredata').ul.text
+        return sp.find('div',id = 'ingredata').text
 
     def get_rec(self, sp):
-        return sp.find('div',class_= 'recipetabsdata').text
+        return sp.find('div',class_= 'steps_listings clearfix').text
 
     def __init__(self, link):
         content = requests.get(link)
@@ -22,24 +22,24 @@ class Article:
 
 
 if (__name__ == "__main__"):
-    content = requests.get('https://recipes.timesofindia.com/chefs/pankaj-bhadouria-recipes')
+    content = requests.get('https://recipes.timesofindia.com/recipes/')
     sp = bs(content.text, 'lxml')
-    link = sp.find('div', id='collectionresults').div
+    lnk_list = sp.find_all('div', class_='mustTry_left recipemainli')
     links = []
-
-    while link:
+    print(len(lnk_list))
+    exit()
+    for link in lnk_list:
         try:
-            links.append(link.div.span.a["href"])
+            links.append(link.a["href"])
         except TypeError:
-            break
-        link = link.next_sibling
+            pass
+    print(links)
     for link in links:
         art = Article(link)
 
-    print("NAME:\n" + art.name)
+        print("NAME:" + art.name)
     #print("DESCRIPTION:\n" + art.des)
-    print("INGREDIENT: ")
-    print(art.ing)
-    print("RECIPE: ")
-    for i in (art.rec):
+        print("INGREDIENT: ",end = " ")
+        print(art.ing)
+        print("RECIPE: ")
         print(art.rec)
