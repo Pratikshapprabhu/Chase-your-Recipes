@@ -3,6 +3,9 @@ from bs4 import BeautifulSoup as bs
 import logging
 import requests
 import pandas as pd
+
+class ArticleError(Exception):
+    pass
     
 class Article:
     def get_name(self,sp):
@@ -17,11 +20,11 @@ class Article:
             return
         for i in ingredient_ul.find_all('li',class_ = 'wprm-recipe-ingredient'):
             amount = i.find('span', class_='wprm-recipe-ingredient-amount')
-            amount = amount.getText() if amount else None
+            amount = amount.getText() if amount else ""
             unit = i.find('span', class_='wprm-recipe-ingredient-unit')
-            unit = unit.getText() if unit else None
+            unit = unit.getText() if unit else ""
             name = i.find('span', class_='wprm-recipe-ingredient-name')
-            name = name.getText() if name else None
+            name = name.getText() if name else ""
             ingredients.append((amount,unit,name))
         return ingredients
     def get_tag(self,sp):
@@ -32,22 +35,27 @@ class Article:
             instructions = sp.find('div', class_='wprm-recipe-instruction-group').ul.find_all('div')
         except AttributeError:
             logging.info("Couldn't get recipe")
-            return
+            return []
         for i in instructions:
             y.append(i.getText())
         return y
 
     def __init__(self,link):
+        print(f"parsing {link}")
         content = requests.get(link)
         sp = bs(content.text,'lxml')
-        name = self.get_name(sp)
+        # if the page doesn't exist
+        try:
+            name = self.get_name(sp)
+        except AttributeError:
+            raise ArticleError
         des = self.get_dis(sp)
         ing = self.get_ingredients(sp)
         self.tag = self.get_tag(sp)
         self.rec = self.get_rec(sp)
-        self.name = name.strip() if name else None
-        self.des = des.strip() if des else None
-        self.ing = ing.strip() if ing else None
+        self.name = name.strip() if name else ""
+        self.des = des.strip() if des else ""
+        self.ing = ing.strip() if ing else ""
 
     def __str__(self):
         return f"name: {self.name}\ndescription: {self.des}\ningredients: {self.ing}\nrecipe: {self.rec}\ntags:{self.tag}"
@@ -56,6 +64,8 @@ class Article:
 if(__name__ == "__main__"):
     #art = Article('https://hebbarskitchen.com/poha-paratha-recipe-poha-aloo-ke-roti/')
     link = "https://hebbarskitchen.com/"
+    df = pd.DataFrame(columns=['Name','Description','Ingredients','Recipe'])
+    df.to_csv('web_data.csv', index=None)
     while(link):
         page = requests.get(link)
         soup = bs(page.text, 'lxml')
@@ -69,13 +79,12 @@ if(__name__ == "__main__"):
             lnk = div.find_all("a")[0]["href"]
             links.append(lnk)
             div = div.next_sibling
-        data = []
         for lnk in links:
-            art = Article(lnk)
-            data.append(art.name)
-            data.append(art.des)
-            data.append(art.ing)
-            data.append(art.rec)
+            try:
+                art = Article(lnk)
+            except ArticleError:
+                continue
+            data = [art.name, art.des, art.ing, art.rec]
             df = pd.DataFrame([data],columns=['Name','Description','Ingredients','Recipe'])
-            store = df.to_csv('web_data.csv')
+            df.to_csv('data/web_data.csv', mode="a", index=False, header=False)
 
