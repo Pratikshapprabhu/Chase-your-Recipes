@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup as bs
 import logging
 import requests
+import pandas as pd
     
 class Article:
     def get_name(self,sp):
@@ -55,20 +56,26 @@ class Article:
 if(__name__ == "__main__"):
     #art = Article('https://hebbarskitchen.com/poha-paratha-recipe-poha-aloo-ke-roti/')
     link = "https://hebbarskitchen.com/"
-    page = requests.get(link)
-    soup = bs(page.text, 'lxml')
-    div = soup.find("div", id="tdi_73").div
-    links = []
-    while div:
-        if div == '\n':
+    while(link):
+        page = requests.get(link)
+        soup = bs(page.text, 'lxml')
+        div = soup.find("div", id="tdi_73").div
+        link = soup.find('a', attrs={"aria-label":"next-page"})["href"]
+        links = []
+        while div:
+            if div == '\n':
+                div = div.next_sibling
+                continue
+            lnk = div.find_all("a")[0]["href"]
+            links.append(lnk)
             div = div.next_sibling
-            continue
-        lnk = div.find_all("a")[0]["href"]
-        links.append(lnk)
-        div = div.next_sibling
-    data = []
-    for lnk in links:
-        art = Article(lnk)
-        print(art)
-        print("-----------------")
+        data = []
+        for lnk in links:
+            art = Article(lnk)
+            data.append(art.name)
+            data.append(art.des)
+            data.append(art.ing)
+            data.append(art.rec)
+            df = pd.DataFrame([data],columns=['Name','Description','Ingredients','Recipe'])
+            store = df.to_csv('web_data.csv')
 

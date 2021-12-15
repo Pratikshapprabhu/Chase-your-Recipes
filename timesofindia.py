@@ -26,8 +26,6 @@ if (__name__ == "__main__"):
     sp = bs(content.text, 'lxml')
     lnk_list = sp.find_all('div', class_='mustTry_left recipemainli')
     links = []
-    print(len(lnk_list))
-    exit()
     for link in lnk_list:
         try:
             links.append(link.a["href"])
@@ -43,3 +41,4 @@ if (__name__ == "__main__"):
         print(art.ing)
         print("RECIPE: ")
         print(art.rec)
+        print("----------------------------")
