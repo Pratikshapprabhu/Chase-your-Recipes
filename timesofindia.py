@@ -14,7 +14,10 @@ class Article:
         return sp.find('div',class_= 'steps_listings clearfix').text
 
     def get_des(self, sp):
-        return ''
+        return sp.find('div', class_ = 'summeryhtcontentin').text
+
+    def get_img(self, sp):
+        return sp.find('div',class_='topfeature ntopfeaturers clearfix').img['src']
 
     def __init__(self, link):
         content = requests.get(link)
@@ -23,7 +26,7 @@ class Article:
         self.ing = self.get_ing(sp)
         self.rec = self.get_rec(sp)
         self.des = self.get_des(sp)
-
+        self.img = self.get_img(sp)
 
 if (__name__ == "__main__"):
     content = requests.get('https://recipes.timesofindia.com/recipes/')
@@ -31,7 +34,7 @@ if (__name__ == "__main__"):
     lnk_list = sp.find_all('div', class_='mustTry_left recipemainli')
     links = []
     if not os.path.exists('project/webscraping/data/web_data.csv'):
-        df = pd.DataFrame(columns=['Name','Description','Ingredients','Recipe'])
+        df = pd.DataFrame(columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
         df.to_csv('data/web_data.csv', index=False)
     for link in lnk_list:
         try:
@@ -41,6 +44,6 @@ if (__name__ == "__main__"):
     for link in links:
         art = Article(link)
         print(link)
-        data = [art.name, art.des, art.ing, art.rec]
+        data = [art.name, "Times Of India", link, art.des, art.ing, art.rec, art.img]
         df1 = pd.DataFrame([data])
         df1.to_csv('data/web_data.csv', mode="a", index=False, header=False)

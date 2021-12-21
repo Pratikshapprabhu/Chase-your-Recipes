@@ -18,6 +18,9 @@ class Article:
     def get_des(self, sp):
         return ''
 
+    def get_img(self, link):
+        return link.find('img')['src']
+
     def __init__(self, link):
         content = requests.get(link)
         sp = bs(content.text, 'lxml')
@@ -25,6 +28,7 @@ class Article:
         self.ing = self.get_ing(sp)
         self.rec = self.get_rec(sp)
         self.des = self.get_des(sp)
+        self.img = self.get_img(link)
 
 
 if (__name__ == "__main__"):
@@ -34,7 +38,7 @@ if (__name__ == "__main__"):
     links = []
     #if file doesnot exist create the file
     if not os.path.exists('project/webscraping/data/web_data.csv'):
-        df = pd.DataFrame(columns=['Name','Description','Ingredients','Recipe'])
+        df = pd.DataFrame(columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
         df.to_csv('data/web_data.csv', index=False)
         
     for link in lnk_list:
@@ -43,6 +47,6 @@ if (__name__ == "__main__"):
     for link in links:
         art = Article(link)
         print(link)
-        data = [art.name, art.des, "\n".join(art.ing), "\n".join(art.rec)]
+        data = [art.name, "Yum Recipe", link, art.des, "\n".join(art.ing), "\n".join(art.rec), art.img]
         df2 = pd.DataFrame([data])
         df2.to_csv('data/web_data.csv', mode="a", index=False, header=False)

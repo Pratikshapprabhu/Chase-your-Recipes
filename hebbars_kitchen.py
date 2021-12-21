@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
+import os
 
 class ArticleError(Exception):
     pass
@@ -38,6 +39,8 @@ class Article:
         for i in instructions:
             y.append(i.getText())
         return y
+    def get_img(self,sp):
+        return sp.find('img',class_ = 'entered lazyloaded')['src']
 
     def __init__(self,link):
         print(f"parsing {link}")
@@ -55,6 +58,7 @@ class Article:
         self.name = name.strip() if name else ""
         self.des = des.strip() if des else ""
         self.ing = ing if ing else ""
+        self.img = self.get_img(sp) if ing else ""
 
     def __str__(self):
         return f"name: {self.name}\ndescription: {self.des}\ningredients: {self.ing}\nrecipe: {self.rec}\ntags:{self.tag}"
@@ -62,8 +66,9 @@ class Article:
 
 if(__name__ == "__main__"):
     link = "https://hebbarskitchen.com/"
-    df = pd.DataFrame(columns=['Name','Description','Ingredients','Recipe'])
-    df.to_csv('data/web_data.csv', index=False)
+    if not os.path.exists('project/webscraping/data/web_data.csv'):
+        df = pd.DataFrame(columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
+        df.to_csv('data/web_data.csv', index=False)
     while(link):
         page = requests.get(link)
         soup = bs(page.text, 'lxml')
@@ -82,7 +87,7 @@ if(__name__ == "__main__"):
                 art = Article(lnk)
             except ArticleError:
                 continue
-            data = [art.name, art.des, art.ing, art.rec]
-            df = pd.DataFrame([data],columns=['Name','Description','Ingredients','Recipe'])
+            data = [art.name,"Hebbars Kitchen", lnk, art.des, art.ing, art.rec, art.img]
+            df = pd.DataFrame([data],columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
             df.to_csv('data/web_data.csv', mode="a", index=False, header=False)
 
