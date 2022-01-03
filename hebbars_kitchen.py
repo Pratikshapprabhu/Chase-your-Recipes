@@ -3,11 +3,13 @@ from bs4 import BeautifulSoup as bs
 import requests
 import pandas as pd
 import os
+import sqlite3 as sq
+
 
 class ArticleError(Exception):
     pass
     
-class Article:
+class Article():
     def get_name(self,sp):
         return sp.find('header', class_='td-post-title').h1.text
     def get_dis(self,sp):
@@ -40,7 +42,10 @@ class Article:
             y.append(i.getText())
         return y
     def get_img(self,sp):
-        return sp.find('img',class_ = 'entered lazyloaded')['src']
+        try:
+            return sp.find('img',class_ = 'entered lazyloaded')['src']
+        except TypeError:
+            return ""
 
     def __init__(self,link):
         print(f"parsing {link}")
@@ -63,12 +68,9 @@ class Article:
     def __str__(self):
         return f"name: {self.name}\ndescription: {self.des}\ningredients: {self.ing}\nrecipe: {self.rec}\ntags:{self.tag}"
 
-
-if(__name__ == "__main__"):
+def scrapp_all(dbname):
     link = "https://hebbarskitchen.com/"
-    if not os.path.exists('project/webscraping/data/web_data.csv'):
-        df = pd.DataFrame(columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
-        df.to_csv('data/web_data.csv', index=False)
+    con = sq.connect('test.db')
     while(link):
         page = requests.get(link)
         soup = bs(page.text, 'lxml')
@@ -87,7 +89,13 @@ if(__name__ == "__main__"):
                 art = Article(lnk)
             except ArticleError:
                 continue
-            data = [art.name,"Hebbars Kitchen", lnk, art.des, art.ing, art.rec, art.img]
-            df = pd.DataFrame([data],columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
-            df.to_csv('data/web_data.csv', mode="a", index=False, header=False)
+            # dump to sqlite
+            con.execute(f'insert into index_table values ("{lnk}","{art.name}","{art.img}")')
+            con.execute(f'insert into recipes values ("{lnk}","{art.ing}","{art.rec}", "{art.des}", "{art.tag}")')
+            con.commit()
+        break
+
+
+if(__name__ == "__main__"):
+    scrapp_all()
 
