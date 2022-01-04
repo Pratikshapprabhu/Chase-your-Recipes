@@ -1,0 +1,45 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body{
+  background: rgb(38, 41, 41);
+  font-family: sans-serif;
+}
+.row{
+  background-image: linear-gradient(to right, #b9aa6a,hsl(40, 82%, 47%));
+  border-radius: 30px;
+  box-shadow: 12px 12px 22px grey;
+}
+img{
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.btn1{
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color:black;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn1:hover{
+  background: white;
+  border: 1px solid;
+  color: black;
+}
+a:link, a:visited {
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  background-color: #0a0a0a;
+  color: white;
+  padding: 5px 10px;
+}
+
+a:hover, a:active {
+  background-color: rgb(248, 220, 220);
+}

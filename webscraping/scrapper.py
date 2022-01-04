@@ -1,4 +1,3 @@
-import article
 import sqlite3 as sq
 import hebbars_kitchen as hk
 import timesofindia as ti

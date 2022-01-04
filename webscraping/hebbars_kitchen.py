@@ -93,7 +93,7 @@ def scrapp_all(dbname):
             con.execute(f'insert into index_table values ("{lnk}","{art.name}","{art.img}")')
             con.execute(f'insert into recipes values ("{lnk}","{art.ing}","{art.rec}", "{art.des}", "{art.tag}")')
             con.commit()
-        break
+        #break
 
 
 if(__name__ == "__main__"):
