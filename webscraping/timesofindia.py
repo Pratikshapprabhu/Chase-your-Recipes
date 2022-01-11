@@ -1,49 +1,50 @@
 from bs4 import BeautifulSoup as bs
 import requests
-import pandas as pd
-import os
+import articles
 
-class Article:
-    def get_name(self, sp):
-        return sp.find('h1',class_ = 'nheadingrs').text
+def get_name(sp):
+    return sp.find('h1',class_ = 'nheadingrs').text
 
-    def get_ing(self, sp):
-        return sp.find('div',id = 'ingredata').text
+def get_ing(sp):
+    return sp.find('div',id = 'ingredata').text
 
-    def get_rec(self, sp):
-        return sp.find('div',class_= 'steps_listings clearfix').text
+def get_rec(sp):
+    return sp.find('div',class_= 'steps_listings clearfix').text
 
-    def get_des(self, sp):
-        return sp.find('div', class_ = 'summeryhtcontentin').text
+def get_des(sp):
+    return sp.find('div', class_ = 'summeryhtcontentin').text
 
-    def get_img(self, sp):
-        return sp.find('div',class_='topfeature ntopfeaturers clearfix').img['src']
+def get_img(sp):
+    return sp.find('div',class_='topfeature ntopfeaturers clearfix').img['src']
+    
+def get_article(link):
+    content = requests.get(link)
+    sp = bs(content.text, 'lxml')
+    name = get_name(sp)
+    ing = get_ing(sp)
+    rec = get_rec(sp)
+    des = get_des(sp)
+    img = get_img(sp)
+    return articles.Article(name,img,rec,ing,des)
 
-    def __init__(self, link):
-        content = requests.get(link)
-        sp = bs(content.text, 'lxml')
-        self.name = self.get_name(sp)
-        self.ing = self.get_ing(sp)
-        self.rec = self.get_rec(sp)
-        self.des = self.get_des(sp)
-        self.img = self.get_img(sp)
-
-if (__name__ == "__main__"):
+def scrap_all():
     content = requests.get('https://recipes.timesofindia.com/recipes/')
     sp = bs(content.text, 'lxml')
     lnk_list = sp.find_all('div', class_='mustTry_left recipemainli')
     links = []
-    if not os.path.exists('project/webscraping/data/web_data.csv'):
-        df = pd.DataFrame(columns=['Name','Domain','Link','Description','Ingredients','Recipe','Image'])
-        df.to_csv('data/web_data.csv', index=False)
+    recipes = []
     for link in lnk_list:
         try:
             links.append(link.a["href"])
         except TypeError:
             pass
     for link in links:
-        art = Article(link)
+        art = get_article(link)
         print(link)
-        data = [art.name, "Times Of India", link, art.des, art.ing, art.rec, art.img]
-        df1 = pd.DataFrame([data])
-        df1.to_csv('data/web_data.csv', mode="a", index=False, header=False)
+        recipes.append(art)
+    return recipes
+
+if (__name__ == "__main__"):
+    art = scrap_all()
+    #for a in art:
+    #   dump to databse(a)   

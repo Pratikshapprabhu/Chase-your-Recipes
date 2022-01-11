@@ -66,11 +66,11 @@ class Article():
         self.img = self.get_img(sp) if ing else ""
 
     def __str__(self):
-        return f"name: {self.name}\ndescription: {self.des}\ningredients: {self.ing}\nrecipe: {self.rec}\ntags:{self.tag}"
+        return f"name: {self.name}\ndescription: {self.des}\ningredients: {self.ing}\nprepare: {self.rec}\ntags:{self.tag}"
 
-def scrapp_all(dbname):
+def scrapp_all():
     link = "https://hebbarskitchen.com/"
-    con = sq.connect('test.db')
+    con = sq.connect('appdatabase.sqlite3')
     while(link):
         page = requests.get(link)
         soup = bs(page.text, 'lxml')
@@ -90,10 +90,10 @@ def scrapp_all(dbname):
             except ArticleError:
                 continue
             # dump to sqlite
-            con.execute(f'insert into index_table values ("{lnk}","{art.name}","{art.img}")')
-            con.execute(f'insert into recipes values ("{lnk}","{art.ing}","{art.rec}", "{art.des}", "{art.tag}")')
+            con.execute(f'insert into index values ("{lnk}","{art.name}","{art.img}")')
+            con.execute(f'insert into recipe values ("{lnk}","{art.ing}","{art.rec}", "{art.des}", "{art.tag}")')
             con.commit()
-        #break
+        break
 
 
 if(__name__ == "__main__"):
