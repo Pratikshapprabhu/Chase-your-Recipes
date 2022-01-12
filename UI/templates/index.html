@@ -43,16 +43,16 @@
       </nav>    
 </section>
 
-<!--------------------search bar--------------------------->
 <section id="search-bar">
     <div class="container"></div>
     <div class="row"></div>
     <div class="col-lg-15 mx-auto"></div>
-    <form>
+    <form action="{% url 'cookbook:search' %}" method="post">
+      {% csrf_token %}
         <div class="input-group input-group-lg"> 
-            <input type="search" placeholder="Chase Here..." class="form-control">
+            <input type="search" placeholder="Chase Here..." class="form-control" name="searchbar">
             <div class="input-group-append"></div>
-            <button type="button" class="btn btn-warning" data-bs-toggle="button" autocomplete="off">Search</button>
+            <input type="submit" value="search">
         </div>
     </form>   
 </section>

@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate,login, logout
 from django.urls import reverse
 from django.contrib import messages
 from authentication.models import registered_user
+#from webscraping import hebbars_kitchen
 
 
 # Create your views here.
@@ -58,5 +59,7 @@ def admin_dashboard(request):
 def perform_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
 
 

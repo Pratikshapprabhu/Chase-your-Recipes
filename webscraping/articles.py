@@ -1,3 +1,6 @@
+from typing_extensions import Self
+
+
 class Article:
     name = None
     ingredients = None

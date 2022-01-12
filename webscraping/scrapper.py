@@ -3,7 +3,6 @@ import hebbars_kitchen as hk
 import timesofindia as ti
 import yum_recipe as yr 
 
-
 #returns list of [(name, recipe_id(link), image url)]
 def search_recipe(search_term):
     return ("This is recipe", "https://this.is.recipe", "url")
