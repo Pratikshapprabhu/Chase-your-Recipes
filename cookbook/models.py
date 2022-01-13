@@ -8,6 +8,9 @@ class RecipeStore(models.Model):
     desc = models.TextField(max_length=10240)
     #tags = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.url
+
 
 class RecipeIndex(models.Model):
     url = models.OneToOneField(RecipeStore, on_delete=models.CASCADE,primary_key=True)
@@ -15,4 +18,5 @@ class RecipeIndex(models.Model):
     img_url = models.CharField(max_length=255)
     domain = models.CharField(max_length=255)
 
-
+    def __str__(self):
+        return self.recipe_name

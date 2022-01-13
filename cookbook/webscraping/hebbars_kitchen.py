@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 from bs4 import BeautifulSoup as bs
 import requests
-import articles
-from webscraping.articles import Article
+from ..models import RecipeStore, RecipeIndex
+from urllib.parse import urlparse
 
 class ArticleError(Exception):
     pass
@@ -59,10 +59,14 @@ def get_article(link):
     des = des.strip() if des else ""
     ing = ing if ing else ""
     img = get_img(sp) if ing else ""
-    return articles.Article(name,img,rec,ing,des)
+    url_obj = urlparse(link)
+    domain = url_obj.hostname
+    store_obj = RecipeStore(url=link,ingredients=ing,preparation=rec,desc=des)
+    store_obj.save()
+    index = RecipeIndex(url=store_obj,recipe_name=name,img_url=img,domain=domain)    
+    index.save()
 
-
-def scrapp_all():
+def scrape_all():
     link = "https://hebbarskitchen.com/"
     while(link):
         page = requests.get(link)
@@ -70,7 +74,6 @@ def scrapp_all():
         div = soup.find("div", id="tdi_73").div
         link = soup.find('a', attrs={"aria-label":"next-page"})["href"]
         links = []
-        recipes = []
         while div:
             if div == '\n':
                 div = div.next_sibling
@@ -80,13 +83,11 @@ def scrapp_all():
             div = div.next_sibling
         for lnk in links:
             try:
-                art = get_article(lnk)
-                recipes.append(art)
+                get_article(lnk)
             except ArticleError:
                 continue
-        return recipes
-
+        
             
 if(__name__ == "__main__"):
-    art = scrapp_all()
+    art = scrape_all()
 

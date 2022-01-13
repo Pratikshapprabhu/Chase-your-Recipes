@@ -6,7 +6,9 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate,login, logout
 from django.urls import reverse
 from django.contrib import messages
+from cookbook.models import RecipeIndex
 from authentication.models import registered_user
+from math import ceil
 #from webscraping import hebbars_kitchen
 
 

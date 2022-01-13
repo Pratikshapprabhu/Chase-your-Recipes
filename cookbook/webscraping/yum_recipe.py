@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup as bs
 import requests
-import articles
+from .articles import Article
 
 def get_name(sp):
     return sp.find('div',class_ = 'imo').span.text
@@ -27,9 +27,9 @@ def get_article(link):
     rec = get_rec(sp)
     des = get_des(sp)
     img = get_img(link)
-    return articles.Article(name,img,rec,ing,des)
+    return Article(link,name,img,rec,ing,des)
 
-def scrap_all():
+def scrape_all():
     content = requests.get('https://www.yumrecipe.in/')
     sp = bs(content.text, 'lxml')
     lnk_list = sp.find_all('div', class_='latest-feed')
@@ -45,4 +45,4 @@ def scrap_all():
     return recipes
 
 if (__name__ == "__main__"):
-    art = scrap_all()
+    art = scrape_all()
