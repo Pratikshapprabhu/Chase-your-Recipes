@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path,include
 from .import views
+from django.views.generic import RedirectView
+
 urlpatterns = [
     path('', views.index, name="index"),
     path('register/', views.register, name="register"),
@@ -9,4 +11,5 @@ urlpatterns = [
     path("perform_login/",views.perform_login,name="perform_login"),
     path("perform_logout/",views.perform_logout,name="perform_logout"),
     path("admin_dashboard/",views.admin_dashboard,name="admin_dashboard"),
-]
+    path('search/', RedirectView.as_view(url='<cookbook_url>'), name = 'search')
+    ]

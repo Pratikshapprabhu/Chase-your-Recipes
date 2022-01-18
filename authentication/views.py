@@ -36,7 +36,7 @@ def perform_register(request):
         user_obj1=authenticate(request,username=username,email=email,password=password)
         if user_obj1 is not None:
             login(request,user_obj1)
-            return HttpResponseRedirect(reverse("admin_dashboard"))
+            return render(request, 'search_result.html')
         else:
             messages.error (request,"User already exists")
             return HttpResponseRedirect("render_login")
@@ -61,7 +61,3 @@ def admin_dashboard(request):
 def perform_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
-
-
-
-

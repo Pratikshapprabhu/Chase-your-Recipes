@@ -43,52 +43,33 @@
             </div>
           </nav>    
     </section>  
+
     {% csrf_token %}    
     {% if result %}
         {% for r in result|slice:"0:" %}
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="col-xs-3 col-sm-3 col-md-3">
-              <div class="card" style="width: 18rem;">
+        <div class="container">
+          <div class="row">
+              <div class="col-lg-5 mb-2">
+                  <div class="card">
                 <img src="{{r.img_url}}" class="card-img-top" alt="...">
                 <div class="card-body">
                   <h5 class="card-title">{{ r.recipe_name }}</h5>
                   <p class="card-text">{{r.domain}}</p>
-                  <a href="#" class="card-link">Card link</a>
+                  <a href="{{r.url}}" class="card-link">Card link</a>
                   <a href="#" class="card-link">Another link</a>
                 </div>
-              </div>
-              <img src='{{r.img_url}}' class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">{{ r.recipe_name }}</h5>
-                <p class="card-text">{{r.domain}}</p>
-                <a href="#" class="card-link">Go somewhere</a>
-              </div>
-            </div>
-          </div>
-      
-
       {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
-       </div><div class="carousel-item">
+       </div>
+       <div class="container">
       {% endif%}
+       </div>  
 </div>
-
 </div>
 </div>
         {% endfor %}
     {% else %}
     <p>No such recipe available.</p>
 {% endif %}
-            
-
-<a class="carousel-control-prev " href="#demo" role="button" data-slide="prev">
-<span class="carousel-control-prev-icon" aria-hidden="true" ></span>
-<span class="sr-only">Previous</span>
-</a>
-<a class="carousel-control-next" href="#demo" role="button" data-slide="next">
-<span class="carousel-control-next-icon" aria-hidden="true"></span>
-<span class="sr-only">Next</span>
-</a>
 </div>
 </body>
 </html>

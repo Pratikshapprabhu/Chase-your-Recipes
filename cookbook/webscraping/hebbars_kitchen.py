@@ -9,8 +9,10 @@ class ArticleError(Exception):
     
 def get_name(sp):
     return sp.find('header', class_='td-post-title').h1.text
+
 def get_dis(sp):
     return sp.find('div', class_= 'td-post-content tagdiv-type').p.text
+
 def get_ing(sp):
     ingredients = []
     ingredient_ul = sp.find('ul',class_ ='wprm-recipe-ingredients')
@@ -37,6 +39,7 @@ def get_rec(sp):
     for i in instructions:
         y.append(i.getText())
     return y
+    
 def get_img(sp):
     try:
         return sp.find('img',class_ = 'entered lazyloaded')['src']

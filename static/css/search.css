@@ -44,9 +44,8 @@ body{
 .col-md-3 {
     display: inline-block;
     margin-left: -4px;
-}
-
-.col-md-3 {
     width: 100%;
     height: auto;
 }
+
+

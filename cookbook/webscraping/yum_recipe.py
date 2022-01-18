@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup as bs
 import requests
-from .articles import Article
+from ..models import RecipeStore, RecipeIndex
+from urllib.parse import urlparse
 
 def get_name(sp):
     return sp.find('div',class_ = 'imo').span.text
@@ -27,7 +28,12 @@ def get_article(link):
     rec = get_rec(sp)
     des = get_des(sp)
     img = get_img(link)
-    return Article(link,name,img,rec,ing,des)
+    url_obj = urlparse(link)
+    domain = url_obj.hostname
+    store_obj = RecipeStore(url=link,ingredients=ing,preparation=rec,desc=des)
+    store_obj.save()
+    index = RecipeIndex(url=store_obj,recipe_name=name,img_url=img,domain=domain)    
+    index.save()
 
 def scrape_all():
     content = requests.get('https://www.yumrecipe.in/')
