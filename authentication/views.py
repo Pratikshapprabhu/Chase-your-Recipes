@@ -1,7 +1,8 @@
+from urllib import response
 from django.contrib.auth import forms
 from django.forms.forms import Form
 from django.http.response import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate,login, logout
 from django.urls import reverse
@@ -36,7 +37,7 @@ def perform_register(request):
         user_obj1=authenticate(request,username=username,email=email,password=password)
         if user_obj1 is not None:
             login(request,user_obj1)
-            return render(request, 'search_result.html')
+            return redirect(response, 'search_result.html')
         else:
             messages.error (request,"User already exists")
             return HttpResponseRedirect("render_login")
@@ -55,8 +56,7 @@ def perform_login(request):
             messages.error (request,"Username or Password is invalid")
             return HttpResponseRedirect("/")
 
-def admin_dashboard(request):
-    return render(request,"admin_dashboard.html")
+
 
 def perform_logout(request):
     logout(request)

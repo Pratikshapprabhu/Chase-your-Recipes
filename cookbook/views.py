@@ -18,6 +18,8 @@ def search(request):
     context = {'no_of_slides':nSlides, 'range':range(nSlides),"result":results}
     return render(request, "search_result.html", context)
 
+def home(request):
+    return render(request,"home_page.html")
 
 scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, name="Hebbars kitchen"),
                     "times_of_india":threading.Thread(target=ti.scrape_all, name="times_of_india"),

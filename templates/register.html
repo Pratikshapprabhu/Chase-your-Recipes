@@ -43,12 +43,12 @@
                   <label><b>Confirm Password</b></label><br>
                   <input type="password" id="psw2" placeholder="Re-enter the Password" name="psw2" class="form-control my-2 p-2"> 
                 </div>
-              </div>
+              </div><br>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <button type="submit" name="signup" onclick =  "location.href = '{% url 'search' %}'"  class="btn1 mt-3 mb-5">SignUp</button>
+                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5">SignUp</a>
                 </div>
-              </div>
+              </div><br>
               <p><strong>Already a User?</strong><a href="{% url 'render_login' %}">Login</a></p>
             </form>
           </div>

@@ -42,7 +42,7 @@ def get_rec(sp):
     
 def get_img(sp):
     try:
-        return sp.find('img',class_ = 'entered lazyloaded')['src']
+        return sp.find("img")["data-lazy-src"]
     except TypeError:
         return ""
 

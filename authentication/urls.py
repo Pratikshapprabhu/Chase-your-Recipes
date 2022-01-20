@@ -10,6 +10,6 @@ urlpatterns = [
     path('render_login', views.render_login , name="render_login"),
     path("perform_login/",views.perform_login,name="perform_login"),
     path("perform_logout/",views.perform_logout,name="perform_logout"),
-    path("admin_dashboard/",views.admin_dashboard,name="admin_dashboard"),
+    path("home/",RedirectView.as_view(url='<cookbook_url>'),name="home"),
     path('search/', RedirectView.as_view(url='<cookbook_url>'), name = 'search')
     ]

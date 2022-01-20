@@ -15,7 +15,7 @@
             <img src="{%static 'images/picture1.jpg' %}" class="img-fluid" alt="">
           </div>
           <div class="col-lg-7 px-5 pt-5">
-            <form id="f1" name="f1" action="{% url 'admin_dashboard' %}" method="post">
+            <form id="f1" name="f1" action="{% url 'render_login' %}" method="post">
               {% csrf_token %}
               {% if messages%}
               {% for message in messages%}
@@ -38,12 +38,13 @@
                   <label><b>Password</b></label><br>
                   <input type="password" placeholder="Enter your Password" class="form-control my-2 p-2"> 
                 </div>
-              </div>
+              </div><br>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <button type="button" class="btn1 mt-3 mb-5">Login</button>
+                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5">Login</a>
+
                 </div>
-              </div>
+              </div><br>
               <a href="#">Forgot Password?</a></p><br>
               <p><strong>New User?</strong><a href="{% url 'register' %}">SignUp</a></p>
             </form>
