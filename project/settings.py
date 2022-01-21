@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
-    'cookbook.apps.CookbookConfig'
+    'cookbook.apps.CookbookConfig',
+    'jquery',
 ]
 
 MIDDLEWARE = [

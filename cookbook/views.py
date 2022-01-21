@@ -21,6 +21,11 @@ def search(request):
 def home(request):
     return render(request,"home_page.html")
 
+def recipe_view(request, recipe_name):
+    recipe=RecipeStore.objects.filter(recipe_name)
+    print(recipe)
+    return render(request, "recipe_view.html",{'recipe':recipe}) 
+
 scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, name="Hebbars kitchen"),
                     "times_of_india":threading.Thread(target=ti.scrape_all, name="times_of_india"),
                     "yum_recipe":threading.Thread(target=yr.scrape_all, name="yum_recipe")
