@@ -66,7 +66,7 @@ def get_article(link):
     domain = url_obj.hostname
     store_obj = RecipeStore(url=link,ingredients=ing,preparation=rec,desc=des)
     store_obj.save()
-    index = RecipeIndex(url=store_obj,recipe_name=name,img_url=img,domain=domain)    
+    index = RecipeIndex(id=store_obj,recipe_name=name,img_url=img,domain=domain)    
     index.save()
 
 def scrape_all():

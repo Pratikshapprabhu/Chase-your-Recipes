@@ -1,5 +1,6 @@
 from django.http.response import Http404, HttpResponse, HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.template import context
 from .models import RecipeIndex, RecipeStore
 from math import ceil
 from .webscraping import hebbars_kitchen as hk
@@ -9,7 +10,6 @@ import threading
 
 def search(request):
     query = request.POST.get("searchbar")
-    searched_query = ''
     if(not query):
         return HttpResponseBadRequest("Invalid search query") 
     results=RecipeIndex.objects.filter(recipe_name__contains=query)
@@ -21,10 +21,12 @@ def search(request):
 def home(request):
     return render(request,"home_page.html")
 
-def recipe_view(request, recipe_name):
-    recipe=RecipeStore.objects.filter(recipe_name)
-    print(recipe)
-    return render(request, "recipe_view.html",{'recipe':recipe}) 
+def recipe_view(request,pk):
+    recipe=get_object_or_404(RecipeStore,id = pk)
+    index_obj = get_object_or_404(RecipeIndex, id__id = pk)
+    context = {'ing':recipe.ingredients.strip('[]').split(','),'pre':recipe.preparation.strip('[]').split('.'),'img':index_obj.img_url,'desc':recipe.desc,'name':index_obj.recipe_name}
+    return render(request, "recipe_view.html",context) 
+
 
 scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, name="Hebbars kitchen"),
                     "times_of_india":threading.Thread(target=ti.scrape_all, name="times_of_india"),
@@ -33,10 +35,6 @@ scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, nam
 
 
 def sync(request):
-#check if thready is running and scraping is already in progress  then 
-# return indicating that scraping is already in progress 
-# else spawn a thread and scrape all links in thread
-#set a  global variable that sync is already in progress
     syncing = False
     if(not scrape_progress.get("hebbars_kitchen").is_alive()):
         syncing = True

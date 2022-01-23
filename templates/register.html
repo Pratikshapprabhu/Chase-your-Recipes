@@ -9,8 +9,8 @@
     <script src="{% static 'js/register.js' %}"></script>
   </head>
   <body>
-    <form id="f1" method="post" action="{% url 'register' %}">
     {% csrf_token %}
+    <form id="f1" method="post" action="{% url 'register' %}">
     <section class="Form my-4 mx-5">
       <div class="container">
         <div class="row no-gutters">
@@ -46,7 +46,7 @@
               </div><br>
               <div class="form-row">
                 <div class="col-lg-7">
-                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5">SignUp</a>
+                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5" >SignUp</a>
                 </div>
               </div><br>
               <p><strong>Already a User?</strong><a href="{% url 'render_login' %}">Login</a></p>

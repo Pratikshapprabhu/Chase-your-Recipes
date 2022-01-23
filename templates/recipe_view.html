@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Recipe view</title>
     {%load static%}
     <link rel="stylesheet" href="{%static 'css/search.css' %}">
-    <script src="{%static 'js/search.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"crossorigin="anonymous"></script>
@@ -47,6 +42,7 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                     <button type="button" class="btn btn-danger mx-2" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true">
                       Saved(<span id="save">0</span>)
+                      
                   </form>
               </div>
             </div>
@@ -54,19 +50,35 @@
     </section>
 
     <script src="{%static 'js/search.js' %}"></script><div class="container my-4">
+      <h1> {{name}}</h1><br><br>
         <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
         <div class="row">
-            <!--img src="{{recipe.img_url}}" width="233px" height="385px"-->
-        </div>
+            <img src="{{img}}" width="233px" height="385px">
+            <p><br><br><b> Description:" </b> {{desc}}" </p>
+        </div><br><br>
             <div class="row">
-                <button class="btn btn-primary">Save</button>
+              <span id = "divpr{{r.url}}" class = "divpr">
+                <button id ="rp{{r.url}}" class="btn btn-success save mx-2">Save Recipe</button> </span>
             </div>
         </div>
-    
-        <div class="col-md-8">
-            <h5>{{recipe.ingredients}}</h5>
-            <p>{{recipe.preparation}}</p>
+        <div><br><br>
+          {%if ing %}
+          <ol> <h4>Ingredients</h4>
+          {% for i in ing %}
+          <li> {{i}} </li>
+            {% endfor %}
+        </ol> 
+            {% endif %}
+      </div>
+      <div><br><br>
+        {%if pre %}
+        <ol>
+      <h4> Procedure </h4>
+          {%for i in pre %}
+          <li> {{i}} </li>
+          {%endfor%}  </ol>
+          {% endif %}
         </div>
         </div>
     </div>
