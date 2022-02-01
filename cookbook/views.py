@@ -18,9 +18,6 @@ def search(request):
     context = {'no_of_slides':nSlides, 'range':range(nSlides),"result":results}
     return render(request, "search_result.html", context)
 
-def home(request):
-    return render(request,"home_page.html")
-
 def recipe_view(request,pk):
     recipe=get_object_or_404(RecipeStore,id = pk)
     index_obj = get_object_or_404(RecipeIndex, id__id = pk)
