@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('authentication.urls')),
-    path('cook/',include('cookbook.urls'))
+    path('auth/',include('authentication.urls')),
+    path('cook/',include('cookbook.urls')),
+    path('',  views.index, name="index")
 ]

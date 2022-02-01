@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+si04k+=5&qah=-$g4yi32gx^&zoz&kb%b3y=*3&!!st4ys&h_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.7.69.253']
 
 
 # Application definition
@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'webscrapedata',
         'HOST': 'localhost',
         'PORT': '3306',
-        'USER': 'root',
+        'USER': 'webscrape',
         'PASSWORD': 'Web@12345',
     }
 }

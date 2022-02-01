@@ -10,12 +10,8 @@ from django.contrib import messages
 from cookbook.models import RecipeIndex
 from authentication.models import registered_user
 from math import ceil
-#from webscraping import hebbars_kitchen
 
 
-# Create your views here.
-def index(request):
-    return render(request,"index.html")
     
 def register(request):
     if request.method == "POST":
