@@ -16,18 +16,15 @@ from .forms import UserRegisterForm
     
 def register(request):
     if request.method == "POST":
-        username = request.POST['username']
-        emailid = request.POST['emailid']
-        password = request.POST['psw1']
-        savedata = registered_user(username = username, emailid = emailid, password = password)
-        savedata.save()
-        return HttpResponseRedirect("index")
-    else:
-        form=UserRegisterForm()
-        context={
-                "form":form
-                }
-        return render(request,"register.html", context=context)
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect("/")
+    form=UserRegisterForm()
+    context={
+            "form":form
+            }
+    return render(request,"register.html", context=context)
 
 def perform_register(request):
     if request.method  != "POST":

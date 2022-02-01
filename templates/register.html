@@ -14,30 +14,25 @@
     <script src="{% static 'js/register.js' %}"></script>
   </head>
   <body>
-    <form id="f1" method="post" >
-      {% csrf_token %}
-      <section class="Form my-4 mx-5">
-        <div class="container">
-          <div class="row no-gutters">
-            <div class="col-lg-5">
-              <img src="{% static 'images/picture1.jpg' %}" class="img-fluid" alt="" />
-            </div>
-            <div class="col-lg-7 px-5 pt-5">
-              <h3><strong>Create your account</strong></h3>
-          {% load crispy_forms_tags %}
-              {{form|crispy}}
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <button type="submit" form="f1" class="btn1 mt-3 mb-5">SignUp</button>
-                </div>
-              </div>
-              <br />
-              <p><strong>Already a User?</strong><a href="{% url 'auth:login' %}">Login</a></p>
-            </div>
+    {% load crispy_forms_tags %}
+    <section class="Form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="{% static 'images/picture1.jpg' %}" class="img-fluid" alt="" />
+          </div>
+          <div class="col-lg-7 px-5 pt-5">
+            <h3><strong>Create your account</strong></h3>
+            <form method="post">
+              {% csrf_token %} {{form|crispy}}
+              <button type="submit" class="btn1 mt-3 mb-5">SignUp</button>
+            </form>
+            <br />
+            <p><strong>Already a User?</strong><a href="{% url 'auth:login' %}">Login</a></p>
           </div>
         </div>
-      </section>
-    </form>
+      </div>
+    </section>
 
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
