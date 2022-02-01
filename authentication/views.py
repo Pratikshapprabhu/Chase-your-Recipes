@@ -20,11 +20,10 @@ def register(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/")
-    form=UserRegisterForm()
-    context={
-            "form":form
-            }
-    return render(request,"register.html", context=context)
+        return render(request,"register.html", context={"form": form})
+    else:
+        form=UserRegisterForm()
+        return render(request,"register.html", context={"form":form})
 
 def perform_register(request):
     if request.method  != "POST":
