@@ -36,12 +36,11 @@ def perform_register(request):
             return redirect(response, 'search_result.html')
         else:
             messages.error (request,"User already exists")
-            return HttpResponseRedirect("render_login")
+            return HttpResponseRedirect("login")
 
-def render_login(request):
-    return render(request,"login.html") 
-
-def perform_login(request):
+def login(request):
+    context={}
+    if request.method == "POST":
         username=request.POST.get("username")
         password=request.POST.get("password")
         user_obj=authenticate(request,username=username,password=password)
@@ -50,9 +49,9 @@ def perform_login(request):
             return HttpResponseRedirect(reverse("admin_dashboard"))
         else:
             messages.error (request,"Username or Password is invalid")
-            return HttpResponseRedirect("/")
-
-
+            return render(request, "login.html", context=context)
+    else:
+        return render(request,"login.html",  context=context) 
 
 def perform_logout(request):
     logout(request)
