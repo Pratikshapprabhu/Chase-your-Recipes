@@ -8,8 +8,9 @@ from django.contrib.auth import authenticate,login, logout
 from django.urls import reverse
 from django.contrib import messages
 from cookbook.models import RecipeIndex
-from authentication.models import registered_user
 from math import ceil
+
+from .forms import UserRegisterForm
 
 
     
@@ -20,8 +21,13 @@ def register(request):
         password = request.POST['psw1']
         savedata = registered_user(username = username, emailid = emailid, password = password)
         savedata.save()
-        print("Data saved successfully")
-    return render(request,"register.html")
+        return HttpResponseRedirect("index")
+    else:
+        form=UserRegisterForm()
+        context={
+                "form":form
+                }
+        return render(request,"register.html", context=context)
 
 def perform_register(request):
     if request.method  != "POST":

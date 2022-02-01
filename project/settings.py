@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
+     'crispy_forms',
     'cookbook.apps.CookbookConfig',
     'jquery',
 ]
@@ -135,3 +136,5 @@ STATICFILES_DIRS = [
    ]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
