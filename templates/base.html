@@ -28,11 +28,23 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">About</a>
               </li>
+              {% if user.is_authenticated %}
+              {%if user.is_staff %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'cookbook:sync' %}">Sync</a>
+              </li>
+              {%endif%}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'auth:logout' %}">Logout</a>
+              </li>
+              {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'auth:register' %}">SignUp</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'auth:login'%}">Login</a>
+                {%endif%}
+
               </li>
             </ul>
           </div>
