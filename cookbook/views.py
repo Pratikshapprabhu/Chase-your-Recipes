@@ -7,6 +7,10 @@ from .webscraping import hebbars_kitchen as hk
 from .webscraping import timesofindia as ti
 from .webscraping import yum_recipe as yr
 import threading
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+
+
 
 def search(request):
     query = request.POST.get("searchbar")
@@ -31,6 +35,7 @@ scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, nam
                     }
 
 
+@staff_member_required(login_url='auth:login')
 def sync(request):
     syncing = False
     if(not scrape_progress.get("hebbars_kitchen").is_alive()):
@@ -58,3 +63,14 @@ def sync(request):
         return HttpResponse("Syncing started ..!!!!!")
     else:
         return HttpResponse("Sync already in progress")
+
+@login_required
+def save_recipe(request):
+    if request.method == "POST":
+        recipe_id = request.POST.get("id")
+        if not recipe_id:
+            return Http404
+        recipe = get_object_or_404(RecipeIndex, id=recipe_id)
+        request.user.userattrs.recipes.add(recipe)
+        return HttpResponse(user.recipes.count())
+    return HttpResponse("not ok")

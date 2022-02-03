@@ -6,8 +6,6 @@
 {%endblock%} 
 {%block content%} 
 {% load crispy_forms_tags %}
-{{ form.errors }}
-{{ form.non_field_errors }}
 <section class="Form my-4 mx-5">
   <div class="container">
     <div class="row no-gutters">
@@ -17,6 +15,15 @@
       <div class="col-lg-7 px-5 pt-5">
         <h3><strong>Create your account</strong></h3>
         <form method="post">
+                 {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <strong>{{ error|escape }}</strong>
+              </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
           {% csrf_token %} {{form|crispy}}
           <button type="submit" class="btn1 mt-3 mb-5">SignUp</button>
         </form>

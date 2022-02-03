@@ -14,7 +14,16 @@
       </div>
       <div class="col-lg-7 px-5 pt-5">
         <form id="f1" name="f1" method="post">
-          {{ form.errors }} {{ form.non_field_errors }} {% csrf_token %} 
+            {% csrf_token %} 
+           {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <strong>{{ error|escape }}</strong>
+              </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
           {{form|crispy}}
           <div class="form-row">
             <div class="col-lg-7">

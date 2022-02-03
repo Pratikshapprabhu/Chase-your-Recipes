@@ -37,6 +37,20 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'auth:logout' %}">Logout</a>
               </li>
+            <form id="f1" class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+              <button
+                type="button"
+                class="btn btn-danger mx-2"
+                id="popcart"
+                data-container="body"
+                data-toggle="popover"
+                data-placement="bottom"
+                data-html="true">
+                Saved(<span id="saved-recipes">0</span>)
+              </button>
               {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'auth:register' %}">SignUp</a>
@@ -65,3 +79,7 @@
 
   </body>
 </html>
+    <script>
+{%block scripts%}
+{%endblock scripts%}
+    </script>
