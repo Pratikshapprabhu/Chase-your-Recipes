@@ -71,6 +71,6 @@ def save_recipe(request):
         if not recipe_id:
             return Http404
         recipe = get_object_or_404(RecipeIndex, id=recipe_id)
-        request.user.userattrs.recipes.add(recipe)
-        return HttpResponse(user.recipes.count())
+        request.user.recipes.add(recipe)
+        return HttpResponse(request.user.recipes.count())
     return HttpResponse("not ok")
