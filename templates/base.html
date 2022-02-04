@@ -42,16 +42,17 @@
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-              <button
+              <a
                 type="button"
                 class="btn btn-danger mx-2"
                 id="popcart"
+                href="{% url 'cookbook:saved_recipes' %}"
                 data-container="body"
                 data-toggle="popover"
                 data-placement="bottom"
                 data-html="true">
                       Saved(<span id="saved-recipes">{{user.recipes.count }}</span>)
-              </button>
+              </a>
               {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'auth:register' %}">SignUp</a>

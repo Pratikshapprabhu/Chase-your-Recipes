@@ -74,3 +74,19 @@ def save_recipe(request):
         request.user.recipes.add(recipe)
         return HttpResponse(request.user.recipes.count())
     return HttpResponse("not ok")
+
+@login_required
+def remove_recipe(request):
+    if request.method == "POST":
+        recipe_id = request.POST.get("id")
+        if not recipe_id:
+            return Http404
+        recipe = get_object_or_404(RecipeIndex, id=recipe_id)
+        request.user.recipes.remove(recipe)
+        return HttpResponse(request.user.recipes.count())
+    return HttpResponse("not ok")
+
+@login_required
+def saved_recipes(request):
+    recipes = request.user.recipes.all()
+    return render(request, "saved_recipes.html", context={"recipes":recipes})
