@@ -17,8 +17,9 @@
           </div>
           <br /><br />
           <div class="row">
-            <span id="divpr{{r.url}}" class="divpr">
-              <button id="rp{{r.url}}" class="btn btn-success save mx-2">Save Recipe</button>
+        {% csrf_token %}
+            <span id="divpr" class="divpr">
+                  <button  id="save-button" onclick="save_recipe('{{id}}')" class="btn btn-success save mx-2">Save Recipe</button>
             </span>
           </div>
         </div>
@@ -47,3 +48,20 @@
       </div>
     </div>
     {%endblock content%}
+{%block scripts%}
+function save_recipe(recipe_id) {
+        $.ajax({
+                type:'POST',
+                url:'{% url "cookbook:save_recipe" %}',
+            data:
+            {
+                id:recipe_id,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(op, d){
+            document.getElementById("save-button").innerHTML = "Saved"
+            document.getElementById("saved-recipes").innerHTML = op
+                    }
+        })
+}
+{%endblock scripts%}

@@ -1,6 +1,5 @@
 {%extends 'base.html'%} {%load static%} {%block head%}
 <link rel="stylesheet" href="{% static 'css/search.css' %}" />
-<script src= "https://code.jquery.com/jquery-3.6.0.min.js"> </script>
 <title>Home</title>
 {%endblock head%} 
 {%block content%} 
@@ -15,7 +14,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ r.recipe_name }}</h5>
           <p class="card-text">{{r.domain}}</p>
-          <a href="/cook/recipe_view/{{r.id.id}}">
+          <a href="/cook/recipe_view/{{r.recipe.id}}">
             <button id="{{r.recipe_name}}" class="btn btn-success">View Recipe</button></a
           >
           <span id="divpr{{r.url}}" class="divpr">

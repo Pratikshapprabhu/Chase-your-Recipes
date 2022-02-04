@@ -24,8 +24,8 @@ def search(request):
 
 def recipe_view(request,pk):
     recipe=get_object_or_404(RecipeStore,id = pk)
-    index_obj = get_object_or_404(RecipeIndex, id__id = pk)
-    context = {'ing':recipe.ingredients.strip('[]').split(','),'pre':recipe.preparation.strip('[]').split('.'),'img':index_obj.img_url,'desc':recipe.desc,'name':index_obj.recipe_name}
+    index_obj = get_object_or_404(RecipeIndex, recipe__id = pk)
+    context = {'ing':recipe.ingredients.strip('[]').split(','),'pre':recipe.preparation.strip('[]').split('.'),'img':index_obj.img_url,'desc':recipe.desc,'name':index_obj.recipe_name, 'id':recipe.id}
     return render(request, "recipe_view.html",context) 
 
 
