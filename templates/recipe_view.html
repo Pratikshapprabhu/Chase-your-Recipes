@@ -19,10 +19,12 @@
           <div class="row">
         {% csrf_token %}
             <span id="divpr" class="divpr">
+                    {% if user.is_authenticated %}
                     {% if saved %}
                   <button  id="save-button" onclick="save_recipe('{{id}}')" class="btn btn-success save mx-2">Save Recipe</button>
                   {% else %}
                   <button  id="remove-button" onclick="remove_recipe('{{id}}')" class="btn btn-success save mx-2">Remove Recipe</button>
+                  {% endif %}
                   {% endif %}
             </span>
           </div>

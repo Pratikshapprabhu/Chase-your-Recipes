@@ -36,8 +36,9 @@ def recipe_view(request,pk):
             'desc':recipe.desc,
             'name':index_obj.recipe_name,
             'id':recipe.id,
-            'saved': request.user.recipes.filter(pk=index_obj.pk).exists()
+            'saved': request.user.recipes.filter(pk=index_obj.pk).exists() if request.user.is_authenticated else False
             }
+
     return render(request, "recipe_view.html",context) 
 
 
