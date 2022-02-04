@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from cookbook.models import RecipeIndex
 
-# Create your models here.
-class registered_user(models.Model):
-    username = models.CharField(max_length=25)
-    emailid = models.EmailField()
-    password = models.CharField(max_length=10)
+class CustomUser(AbstractUser):
+    recipes = models.ManyToManyField(RecipeIndex, blank=True)
 
+    def __str__(self):
+        return self.username

@@ -1,67 +1,36 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {%load static %}
-    <link rel="stylesheet" href="{% static 'css/register.css' %}">>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="{% static 'js/register.js' %}"></script>
-  </head>
-  <body>
-    {% csrf_token %}
-    <form id="f1" method="post" action="{% url 'register' %}">
-    <section class="Form my-4 mx-5">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-lg-5">
-            <img src="{% static 'images/picture1.jpg' %}" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-7 px-5 pt-5">
-            <h3><strong>Create your account</strong></h3>
-            <form>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Username</b></label><br>
-                  <input type="text" placeholder="Enter your Username" name = "username" id = "username" class="form-control my-2 p-2"> 
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Email-ID</b></label><br>
-                  <input type="email" placeholder="Enter your Email-ID" name = "emailid" id = "emailid" class="form-control my-2 p-2"> 
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Password</b></label><br>
-                  <input type="password" id="psw1" placeholder="Create a Password" name="psw1" class="form-control my-2 p-2"> 
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Confirm Password</b></label><br>
-                  <input type="password" id="psw2" placeholder="Re-enter the Password" name="psw2" class="form-control my-2 p-2"> 
-                </div>
-              </div><br>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5" >SignUp</a>
-                </div>
-              </div><br>
-              <p><strong>Already a User?</strong><a href="{% url 'render_login' %}">Login</a></p>
-            </form>
-          </div>
-        </div>
+{%extends 'base.html'%} 
+{%load static %}
+{%block head%} 
+<link rel="stylesheet" href="{%static 'css/register.css' %}" />
+<title> Register </title>
+{%endblock%} 
+{%block content%} 
+{% load crispy_forms_tags %}
+<section class="Form my-4 mx-5">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5">
+        <img src="{% static 'images/picture1.jpg' %}" class="img-fluid" alt="" />
       </div>
-    </section>
-    </form>
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
+      <div class="col-lg-7 px-5 pt-5">
+        <h3><strong>Create your account</strong></h3>
+        <form method="post">
+                 {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <strong>{{ error|escape }}</strong>
+              </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
+          {% csrf_token %} {{form|crispy}}
+          <button type="submit" class="btn1 mt-3 mb-5">SignUp</button>
+        </form>
+        <br />
+        <p><strong>Already a User?</strong><a href="{% url 'auth:login' %}">Login</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{%endblock content%}

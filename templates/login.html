@@ -1,64 +1,41 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  </head>
-  <body onLoad="Captcha()">
-    <section class="Form my-4 mx-5">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-lg-5">
-            <img src="{%static 'images/picture1.jpg' %}" class="img-fluid" alt="">
-          </div>
-          <div class="col-lg-7 px-5 pt-5">
-            <form id="f1" name="f1" action="{% url 'render_login' %}" method="post">
-              {% csrf_token %}
-              {% if messages%}
-              {% for message in messages%}
-              <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> {{message}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              {% endfor %}
-              {% endif %}
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Email-ID</b></label><br>
-                  <input type="email" placeholder="Enter your Email-ID" class="form-control my-2 p-2"> 
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <label><b>Password</b></label><br>
-                  <input type="password" placeholder="Enter your Password" class="form-control my-2 p-2"> 
-                </div>
-              </div><br>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <a href =  "{% url 'cookbook:home' %}"  class="btn1 mt-3 mb-5">Login</a>
-
-                </div>
-              </div><br>
-              <a href="#">Forgot Password?</a></p><br>
-              <p><strong>New User?</strong><a href="{% url 'register' %}">SignUp</a></p>
-            </form>
-          </div>
-        </div>
+{%extends 'base.html'%} 
+{% load crispy_forms_tags %} 
+{%load static %} 
+{%block head%}
+<link rel="stylesheet" href="{% static 'css/login.css' %}" />
+<title>login</title>
+{%endblock head%} 
+{%block content%}
+<section class="Form my-4 mx-5">
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5">
+        <img src="{%static 'images/picture1.jpg' %}" class="img-fluid" alt="" />
       </div>
-    </section>
-
-
-
-
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </body>
-</html>
+      <div class="col-lg-7 px-5 pt-5">
+        <form id="f1" name="f1" method="post">
+            {% csrf_token %} 
+           {% if form.errors %}
+       {% for field in form %}
+           {% for error in field.errors %} 
+              <div class="alert alert-danger">
+                   <strong>{{ error|escape }}</strong>
+              </div>
+           {% endfor %}
+       {% endfor %}
+    {% endif %}
+          {{form|crispy}}
+          <div class="form-row">
+            <div class="col-lg-7">
+              <button type="submit" form="f1" class="btn1 mt-3 mb-5">Login</button>
+            </div>
+          </div>
+        </form>
+        <br />
+        <a href="#">Forgot Password?</a><br />
+        <p><strong>New User?</strong><a href="{% url 'auth:register' %}">SignUp</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{%endblock content%}

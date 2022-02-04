@@ -1,10 +1,10 @@
 {%extends 'base.html'%} {%load static%} {%block head%}
 <link rel="stylesheet" href="{% static 'css/search.css' %}" />
-<title>Home</title>
+<title>Saved Recipes</title>
 {%endblock head%} 
 {%block content%} 
-{% if result %} 
-{% for r in result|slice:"0:" %}
+{% if recipes %} 
+{% for r in recipes|slice:"0:" %}
 {% csrf_token %}
 <div class="container">
   <div class="row">
@@ -18,7 +18,7 @@
             <button id="{{r.recipe_name}}" class="btn btn-success">View Recipe</button></a
           >
           <span id="divpr{{r.url}}" class="divpr">
-                  <button  onclick="save_recipe('{{r.id}}')" class="btn btn-success save mx-2">Save Recipe</button>
+                  <button  onclick="remove_recipe('{{r.id}}')" class="btn btn-success save mx-2">Remove Recipe</button>
           </span>
         </div>
         {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
@@ -32,10 +32,10 @@
 {% endif %} 
 {%endblock content%} 
 {%block scripts%}
-function save_recipe(recipe_id) {
+function remove_recipe(recipe_id) {
         $.ajax({
                 type:'POST',
-                url:'{% url "cookbook:save_recipe" %}',
+                url:'{% url "cookbook:remove_recipe" %}',
             data:
             {
                 id:recipe_id,

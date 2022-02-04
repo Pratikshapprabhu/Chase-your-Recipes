@@ -15,7 +15,8 @@ class RecipeStore(models.Model):
 
 
 class RecipeIndex(models.Model):
-    id = models.OneToOneField(RecipeStore, on_delete=models.CASCADE,primary_key=True)
+    id = models.AutoField(primary_key=True)
+    recipe = models.OneToOneField(RecipeStore, on_delete=models.CASCADE,primary_key=False)
     recipe_name = models.CharField(max_length=255)
     img_url = models.CharField(max_length=255)
     domain = models.CharField(max_length=255)

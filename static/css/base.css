@@ -1,0 +1,42 @@
+*{
+    margin: 0 ;
+    padding: 0;
+}
+body{
+    font-family: sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+     background: #E8D8A9;
+}
+#view-section{
+        background-color: red;
+}
+#nav-bar{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.navbar{
+    background: linear-gradient(to right, #eee5c2,hsl(40, 61%, 54%));
+    padding: 0;
+}
+.navbar-brand img{
+    height: 40px;
+    padding-left: 20px;
+}
+.navbar-nav li{
+    padding: 0 10px;
+}
+.navbar-nav li a{
+    color: black;
+    font-weight: 600;
+    float: right;
+    text-align: left;
+}
+.fa-bars{
+    color: black;
+    font-size: 30px;
+}
+.navbar-toggler{
+    outline: none;
+}
