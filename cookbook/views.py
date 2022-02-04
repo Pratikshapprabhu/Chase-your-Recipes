@@ -10,6 +10,10 @@ import threading
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 
+scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, name="Hebbars kitchen"),
+                    "times_of_india":threading.Thread(target=ti.scrape_all, name="times_of_india"),
+                    "yum_recipe":threading.Thread(target=yr.scrape_all, name="yum_recipe")
+                    }
 
 
 def search(request):
@@ -25,14 +29,18 @@ def search(request):
 def recipe_view(request,pk):
     recipe=get_object_or_404(RecipeStore,id = pk)
     index_obj = get_object_or_404(RecipeIndex, recipe__id = pk)
-    context = {'ing':recipe.ingredients.strip('[]').split(','),'pre':recipe.preparation.strip('[]').split('.'),'img':index_obj.img_url,'desc':recipe.desc,'name':index_obj.recipe_name, 'id':recipe.id}
+    context = {
+            'ing':recipe.ingredients.strip('[]').split(','),
+            'pre':recipe.preparation.strip('[]').split('.'),
+            'img':index_obj.img_url,
+            'desc':recipe.desc,
+            'name':index_obj.recipe_name,
+            'id':recipe.id,
+            'saved': request.user.recipes.filter(pk=index_obj.pk).exists()
+            }
     return render(request, "recipe_view.html",context) 
 
 
-scrape_progress = { "hebbars_kitchen":threading.Thread(target=hk.scrape_all, name="Hebbars kitchen"),
-                    "times_of_india":threading.Thread(target=ti.scrape_all, name="times_of_india"),
-                    "yum_recipe":threading.Thread(target=yr.scrape_all, name="yum_recipe")
-                    }
 
 
 @staff_member_required(login_url='auth:login')

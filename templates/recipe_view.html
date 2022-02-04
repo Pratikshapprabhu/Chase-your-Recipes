@@ -19,7 +19,11 @@
           <div class="row">
         {% csrf_token %}
             <span id="divpr" class="divpr">
+                    {% if saved %}
                   <button  id="save-button" onclick="save_recipe('{{id}}')" class="btn btn-success save mx-2">Save Recipe</button>
+                  {% else %}
+                  <button  id="remove-button" onclick="remove_recipe('{{id}}')" class="btn btn-success save mx-2">Remove Recipe</button>
+                  {% endif %}
             </span>
           </div>
         </div>
@@ -60,6 +64,22 @@ function save_recipe(recipe_id) {
             },
             success:function(op, d){
             document.getElementById("save-button").innerHTML = "Saved"
+            document.getElementById("saved-recipes").innerHTML = op
+                    }
+        })
+}
+
+function remove_recipe(recipe_id) {
+        $.ajax({
+                type:'POST',
+                url:'{% url "cookbook:remove_recipe" %}',
+            data:
+            {
+                id:recipe_id,
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+            },
+            success:function(op, d){
+            document.getElementById("remove-button").innerHTML = "Removed"
             document.getElementById("saved-recipes").innerHTML = op
                     }
         })

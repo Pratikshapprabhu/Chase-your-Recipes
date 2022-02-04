@@ -6,6 +6,10 @@ body{
     font-family: sans-serif;
     background-repeat: no-repeat;
     background-size: cover;
+     background: #E8D8A9;
+}
+#view-section{
+        background-color: red;
 }
 #nav-bar{
     position: sticky;
@@ -13,7 +17,7 @@ body{
     z-index: 10;
 }
 .navbar{
-    background-image: linear-gradient(to right, #eee5c2,hsl(40, 61%, 54%));
+    background: linear-gradient(to right, #eee5c2,hsl(40, 61%, 54%));
     padding: 0;
 }
 .navbar-brand img{
