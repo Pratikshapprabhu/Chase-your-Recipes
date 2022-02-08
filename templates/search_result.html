@@ -17,9 +17,11 @@
           <a href="/cook/recipe_view/{{r.recipe.id}}">
             <button id="{{r.recipe_name}}" class="btn btn-success">View Recipe</button></a
           >
+          {% if user.is_authenticated %}
           <span id="divpr{{r.url}}" class="divpr">
                   <button  onclick="save_recipe('{{r.id}}')" class="btn btn-success save mx-2">Save Recipe</button>
           </span>
+          {% endif%}
         </div>
         {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
       </div>

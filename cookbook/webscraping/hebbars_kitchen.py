@@ -4,6 +4,7 @@ import requests
 from ..models import RecipeStore, RecipeIndex
 from urllib.parse import urlparse
 
+
 class ArticleError(Exception):
     pass
     
@@ -47,7 +48,7 @@ def get_img(sp):
         return ""
 
 def get_article(link):
-    print(f"parsing {link}")
+   
     content = requests.get(link)
     sp = bs(content.text,'lxml')
     # if the page doesn't exist

@@ -21,6 +21,7 @@ def get_img(link):
     return link.find('img')['src']
 
 def get_article(link):
+    print(f"parsing {link}")
     content = requests.get(link)
     sp = bs(content.text, 'lxml')
     name = get_name(sp)
